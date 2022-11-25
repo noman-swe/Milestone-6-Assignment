@@ -4,12 +4,27 @@ document.getElementById('search-field').addEventListener('keypress', function (e
     }
 });
 
+document.getElementById('btn-search').addEventListener('click', function(){
+    processSearch();
+})
+
 const processSearch = () => {
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
     // console.log(searchText);
     loadPhones(searchText);
     searchField.value = '';
+    toggleSpinner(true);
+}
+
+// loader
+const toggleSpinner = isLoading => {
+    const loadar = document.getElementById('loader');
+    if(isLoading){
+        loadar.classList.remove('d-none');
+    }else{
+        loadar.classList.add('d-none');
+    }
 }
 
 const loadPhones = (searchText) => {
@@ -61,13 +76,17 @@ const displayPhones = (phones) => {
         `;
         phonesContainer.appendChild(colDiv);
     });
+
+    toggleSpinner(false);
 }
 
 const loadPhoneDetails = (phoneId) => {
     const url = `https://openapi.programming-hero.com/api/phone/${phoneId}`;
     fetch(url)
-    .then(res => res.json())
-    .then(data => displayPhoneDetails(data.data))
+        .then(res => res.json())
+        .then(data => displayPhoneDetails(data.data))
+
+        toggleSpinner(true);
 }
 
 const displayPhoneDetails = phone => {
@@ -167,6 +186,8 @@ const displayPhoneDetails = phone => {
         <p class="mt-4 text-success text-center">Related Items...</p>
         `;
     detailsContainer.appendChild(div);
-    console.log(phone.mainFeatures.sensors[0]);
+    // console.log(phone.mainFeatures.sensors[0]);
+
+    toggleSpinner(false);
 
 }
