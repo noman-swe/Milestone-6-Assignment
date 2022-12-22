@@ -20,8 +20,6 @@ const setInnerText = (id, text) => {
 }
 
 const displayTemperature = temperature => {
-    console.log(temperature);
-    console.log(temperature.name);
     setInnerText('city', temperature.name);
     setInnerText('temperature', temperature.main.temp);
     setInnerText('condition', temperature.weather[0].main);
